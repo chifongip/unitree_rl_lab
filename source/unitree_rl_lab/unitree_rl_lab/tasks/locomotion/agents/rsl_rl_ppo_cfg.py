@@ -4,7 +4,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 from isaaclab.utils import configclass
-from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlPpoActorCriticCfg, RslRlPpoAlgorithmCfg
+from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlPpoActorCriticCfg, RslRlPpoAlgorithmCfg, RslRlSymmetryCfg
+
+from unitree_rl_lab.tasks.locomotion.mdp.symmetry import g1_29dof
 
 
 @configclass
@@ -33,4 +35,10 @@ class BasePPORunnerCfg(RslRlOnPolicyRunnerCfg):
         lam=0.95,
         desired_kl=0.01,
         max_grad_norm=1.0,
+        symmetry_cfg=RslRlSymmetryCfg(
+            use_data_augmentation=True,
+            data_augmentation_func=g1_29dof.compute_symmetric_states,
+            use_mirror_loss=True,
+            mirror_loss_coeff=0.1,
+        ),
     )
